@@ -4,4 +4,12 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.management_platform.mapper.StudentMapper">
 
+    <insert id="add">
+        insert into management_platform.student_info (student_username, admin_password, admin_email) values (#{adminUsername},#{adminPassword},#{adminEmail});
+    </insert>
+
+    <select id="find" resultType="com.example.management_platform.entity.Student">
+        select student_username from management_platform.student_info where student_username =#{studentName};
+    </select>
+
 </mapper>
