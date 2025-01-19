@@ -5,4 +5,10 @@ import com.example.management_platform.entity.Admin;
 
 public interface AdminService {
     void register(AdminDto adminDto);
+
+    Admin login(Admin admin);
+
+    void findBack(AdminDto adminDto);
+
+    Admin selectUserById(String id);
 }

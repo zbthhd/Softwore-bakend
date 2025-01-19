@@ -4,4 +4,20 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.management_platform.mapper.GroupMapper">
 
+    <update id="updateByGroupId">
+    update group_info set  group_is_available=#{groupIsAvailable},group_score=#{groupScore},group_notice=#{groupNotice} where group_info.group_id=#{groupId}
+    </update>
+
+
+    <delete id="deleteByClassId">
+        delete from group_info where class_id=#{classId}
+    </delete>
+
+    <select id="selectByClassId" resultType="com.example.management_platform.entity.Group">
+        select *from group_info where class_id=#{classId}
+    </select>
+
+    <select id="selectByGroupId" resultType="com.example.management_platform.entity.Group">
+        select *from group_info where group_id=#{groupId}
+    </select>
 </mapper>

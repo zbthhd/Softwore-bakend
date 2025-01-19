@@ -8,19 +8,15 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Student {
-
-    private String studentUsername;
-    private String studentName;
+public class StudentGroup {
     private Integer studentId;
+    private String studentName;
     private String studentNumber;
-    private String studentPassword;
-
-    private String studentEmail;
-    private Integer classId;
-
-
-
+    private Byte studentPosition;
+    private Integer groupId;
+    private String studentApplyReason;
+    private String studentNotice;
+    private String giteeUrl;
 
 
 }

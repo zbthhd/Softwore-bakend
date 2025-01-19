@@ -2,6 +2,24 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
 <mapper namespace="com.example.management_platform.mapper.ClassMapper">
+
+    <insert id="insert">
+        insert into management_platform.class_info (admin_username, class_name, admin_id) values (#{adminUsername},#{className},#{adminId})
+    </insert>
+    <delete id="deleteById">
+    delete from class_info where class_id=#{classId}
+    </delete>
+
+
+    <select id="getClasses" resultType="com.example.management_platform.entity.ClassInfo">
+        select *from class_info
+    </select>
+
+
+    <select id="searchByPageAndName" resultType="com.example.management_platform.entity.ClassInfo">
+        select *from class_info where class_name like concat('%',#{name},'%')
+    </select>
 
 </mapper>

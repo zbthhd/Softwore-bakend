@@ -7,4 +7,16 @@
     <insert id="insert">
         insert into management_platform.admin_info (admin_username, admin_password, admin_email) values (#{adminUsername},#{adminPassword},#{adminEmail});
     </insert>
+    <update id="updateByNameAndEmail">
+        update management_platform.admin_info set admin_password=#{adminPassword} where admin_username=#{adminUsername} and admin_email=#{adminEmail}
+    </update>
+    <select id="selectByAdminUsernameAndAdminPassword"
+            resultType="com.example.management_platform.entity.Admin">
+        select * from management_platform.admin_info where admin_username=#{adminUsername} and admin_password=#{adminPassword}
+    </select>
+
+
+    <select id="selectById" resultType="com.example.management_platform.entity.Admin">
+        select *from admin_info where admin_id=#{id}
+    </select>
 </mapper>

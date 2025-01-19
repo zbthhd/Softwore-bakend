@@ -36,4 +36,36 @@ public class AdminService implements com.example.management_platform.service.Adm
         adminMapper.insert(admin);
         return;
     }
+
+
+
+    @Transactional
+    @Override
+    public Admin login(Admin admin) {
+        String adminPassword = admin.getAdminPassword();
+        admin.setAdminPassword(DigestUtils.md5DigestAsHex(adminPassword.getBytes()));
+        return adminMapper.selectByAdminUsernameAndAdminPassword(admin);
+    }
+
+
+    @Transactional
+    @Override
+    public void findBack(AdminDto adminDto) {
+        //将adminDto的信息传给admin对象
+        Admin admin = new Admin();
+        admin.setAdminUsername(adminDto.getAdminUsername());
+        admin.setAdminPassword(adminDto.getAdminPassword());
+        admin.setAdminEmail(adminDto.getAdminEmail());
+
+        //对密码进行MD5加密
+        String password=admin.getAdminPassword();
+        admin.setAdminPassword(DigestUtils.md5DigestAsHex(password.getBytes()));;
+
+        adminMapper.updateByNameAndEmail(admin);
+    }
+
+    @Override
+    public Admin selectUserById(String id) {
+        return adminMapper.selectById(id);
+    }
 }

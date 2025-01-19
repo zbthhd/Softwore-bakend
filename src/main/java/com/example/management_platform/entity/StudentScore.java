@@ -1,6 +1,5 @@
 package com.example.management_platform.entity;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,19 +7,13 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Student {
+public class StudentScore {
 
-    private String studentUsername;
     private String studentName;
     private Integer studentId;
     private String studentNumber;
-    private String studentPassword;
-
-    private String studentEmail;
-    private Integer classId;
-
-
-
-
-
+    private String groupProName;
+    private Byte groupScore;
+    private Integer groupId;
+    private Byte studentFinish;
 }
