@@ -9,6 +9,12 @@
     </delete>
     <select id="selectById" resultType="com.example.management_platform.entity.Student">
         select * from student_info where student_id=#{studentId}
+    <insert id="add">
+        insert into management_platform.student_info (student_username, admin_password, admin_email) values (#{adminUsername},#{adminPassword},#{adminEmail});
+    </insert>
+
+    <select id="find" resultType="com.example.management_platform.entity.Student">
+        select student_username from management_platform.student_info where student_username =#{studentName};
     </select>
 
 </mapper>
