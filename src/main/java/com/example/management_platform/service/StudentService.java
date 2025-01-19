@@ -1,8 +1,9 @@
 package com.example.management_platform.service;
 
-import com.example.management_platform.common.R;
-import com.example.management_platform.dto.StudentDto;
+import com.example.management_platform.entity.Student;
 
 public interface StudentService {
-    R register(StudentDto adminDto);
+    void deleteByClassId(Integer classId);
+
+    Student selectUserById(String studentId);
 }

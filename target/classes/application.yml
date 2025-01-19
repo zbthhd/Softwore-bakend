@@ -1,0 +1,35 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: management_platform
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/management_platform?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: 123456
+
+  mail:
+    host: smtp.qq.com
+    username: 2248384953@qq.com
+    password: nhpxnefzhzqyecfb # 注意：这是授权码，不是邮箱密码
+    port: 587
+    default-encoding: UTF-8
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          connection timeout: 5000 # 可选：设置连接超时时间
+          timeout: 5000           # 可选：设置读取超时时间
+          write timeout: 5000      # 可选：设置写入超时时间
+          debug: true             # 启用调试日志
+#??SQL??
+# application.yml
+mybatis:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true
+

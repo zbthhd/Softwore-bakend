@@ -9,19 +9,18 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Student {
-    private Integer studentId;
+
     private String studentUsername;
     private String studentName;
+    private Integer studentId;
+    private String studentNumber;
     private String studentPassword;
+
     private String studentEmail;
-    private Byte studentPosition;
-    private Byte studentFinish;
-    private String studentTeamLeaderNotice;
-    private String studentTeamTeacherNotice;
-    private String studentApplyReason;
-    private Byte studentStatus;
-    private Byte studentScore;
-    private Integer groupId;
     private Integer classId;
-    private String giteeUrl;
+
+
+
+
+
 }

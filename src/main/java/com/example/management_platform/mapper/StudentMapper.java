@@ -5,8 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface StudentMapper {
+    void deleteByClassId(Integer classId);
 
-    public Student find(Student student);
-
-    public void add(Student student);
+    Student selectById(String studentId);
 }

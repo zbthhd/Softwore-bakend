@@ -4,6 +4,11 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.management_platform.mapper.StudentMapper">
 
+    <delete id="deleteByClassId">
+        delete from student_info where class_id=#{classId}
+    </delete>
+    <select id="selectById" resultType="com.example.management_platform.entity.Student">
+        select * from student_info where student_id=#{studentId}
     <insert id="add">
         insert into management_platform.student_info (student_username, admin_password, admin_email) values (#{adminUsername},#{adminPassword},#{adminEmail});
     </insert>
