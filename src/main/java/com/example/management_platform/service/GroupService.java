@@ -16,4 +16,14 @@ public interface GroupService {
     void evaluationApproval(Group group);
 
     void exportExcel(ServletOutputStream outputStream, String title,Integer classId);
+
+    void deleteByStudentId(Integer studentId);
+
+    Group searchByStudentId(Integer studentId);
+
+    void enterNext(Integer studentId);
+
+    void addGiteeUrl(Group group);
+
+    Group getGroupInfoByStudentId(Integer studentId);
 }

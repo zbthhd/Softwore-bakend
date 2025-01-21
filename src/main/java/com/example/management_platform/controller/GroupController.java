@@ -28,10 +28,31 @@ public class GroupController {
         return R.success(group);
     }
 
-    @PostMapping("project_evaluation-approval")
+    @PostMapping("/project_evaluation-approval")
     public R<String> projectEvaluationApproval(@RequestBody Group group) {
         groupService.evaluationApproval(group);
         return R.success("打分立项成功");
     }
 
+    @PutMapping("/enter-next")
+    public R<String> enterNext(@RequestParam("studentId") Integer studentId) {
+
+        groupService.enterNext(studentId);
+        return R.success("小组成功进入下一阶段");
+    }
+
+    @PostMapping("/add-gitee-url")
+    public R<String> addGiteeUrl(@RequestBody Group group) {
+        //修改小组的url
+
+        //修改这个组所以学生URL
+        groupService.addGiteeUrl(group);
+        return R.success("上传成功");
+    }
+
+    @GetMapping("/get-group-info")
+    public R<Group> getGroupInfo(@RequestParam("studentId") Integer studentId) {
+        Group group = groupService.getGroupInfoByStudentId(studentId);
+        return R.success(group);
+    }
 }

@@ -3,9 +3,30 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.management_platform.mapper.StudentGroupMapper">
+    <update id="updateInfoById">
+        update management_platform.student_group set group_id=-1,student_notice=null,student_group.student_position=-1,student_apply_reason=null,student_notice=null,gitee_url='未加入仓库' where student_id=#{stduentId}
+    </update>
+    <update id="updateInfoByStudentId">
+        update management_platform.student_group set group_id=-1,student_position=-1,student_apply_reason=null,student_notice=null,gitee_url='未加入仓库' where student_id=#{studentId}
+    </update>
+    <update id="updateApplyInfo">
+        update management_platform.student_group set student_apply_reason=#{studentApplyReason},group_id=#{groupId},student_position=2 where student_id=#{studentId}
+    </update>
+    <update id="updateUrlByGroupId">
+        update student_group set gitee_url=#{giteeUrl} where group_id=#{groupId}
+    </update>
 
     <delete id="deleteByClassId">
         delete from management_platform.group_info where class_id=#{classId}
 
     </delete>
+    <select id="selectByGroupId" resultType="com.example.management_platform.entity.StudentGroup">
+        select *from management_platform.student_group where group_id=#{groupId}
+    </select>
+    <select id="selectByStudentId" resultType="com.example.management_platform.entity.StudentGroup">
+        select *from management_platform.student_group where student_id=#{studentId}
+    </select>
+    <select id="searchByPageAndId" resultType="com.example.management_platform.entity.StudentGroup">
+        select *from management_platform.student_group where group_id=#{groupId}
+    </select>
 </mapper>

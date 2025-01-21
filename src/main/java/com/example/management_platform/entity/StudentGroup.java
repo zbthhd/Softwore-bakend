@@ -14,9 +14,11 @@ public class StudentGroup {
     private String studentNumber;
     private Byte studentPosition;
     private Integer groupId;
+    private String groupProName;
     private String studentApplyReason;
     private String studentNotice;
     private String giteeUrl;
+
 
 
 }

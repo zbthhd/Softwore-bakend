@@ -15,4 +15,12 @@ public interface GroupMapper {
     Group selectByGroupId(int groupId);
 
     void updateByGroupId(Group group);
+
+    void deleteByStudentId(Integer studentId);
+
+    Group selectByStudentId(Integer studentId);
+
+    void updateFinishByGroup(Group group);
+
+    void updateUrlByGroupId(Group group);
 }

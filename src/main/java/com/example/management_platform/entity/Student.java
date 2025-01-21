@@ -15,11 +15,8 @@ public class Student {
     private Integer studentId;
     private String studentNumber;
     private String studentPassword;
-
     private String studentEmail;
     private Integer classId;
-
-
 
 
 

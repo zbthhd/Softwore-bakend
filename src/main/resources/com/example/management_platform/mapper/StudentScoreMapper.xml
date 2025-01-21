@@ -3,11 +3,26 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.management_platform.mapper.StudentScoreMapper">
+    <update id="updateExpelById">
+        update student_score set group_score=0,group_pro_name='未加入小组',group_id=-1,student_finish=0 where student_id=#{stduentId}
+    </update>
+    <update id="updateInfoByStudentId">
+        update student_score set group_id=-1,student_finish=0,group_pro_name='',group_score=0 where student_id=#{studentId}
+    </update>
+    <update id="updateApplyInfo">
+        update management_platform.student_score set group_id=#{groupId},group_pro_name=#{groupProName} where student_id=#{studentId}
+    </update>
+    <update id="updateFinishByStudentId">
+    update management_platform.student_score set student_finish=#{studentFinish} where student_id=#{studentId}
+    </update>
 
     <delete id="deleteByClassId">
         delete from student_score where class_id=#{classId}
     </delete>
     <select id="selectByClassId" resultType="com.example.management_platform.entity.StudentScore">
         select *from student_score where class_id=#{classId}
+    </select>
+    <select id="selectByStudentId" resultType="com.example.management_platform.entity.StudentScore">
+        select *from management_platform.student_score where student_id=#{studentId}
     </select>
 </mapper>

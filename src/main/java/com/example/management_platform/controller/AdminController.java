@@ -67,7 +67,7 @@ public class AdminController {
      * @param adminDto
      * @return
      */
-    @PostMapping("/forget_password")
+    @PostMapping("/forget-password")
     public R<String> forgetPassword(@RequestBody AdminDto adminDto) {
         //实现验证码的验证的逻辑
         if (!adminDto.getVerificationCode().equals("11"))

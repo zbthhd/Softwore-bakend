@@ -49,7 +49,7 @@ public class ClassController {
         return R.success("增加成功");
     }
 
-    @GetMapping("/get_classes")
+    @GetMapping("/get-classes")
     public R<List<ClassInfo>> getClasses() {
         List<ClassInfo> list=new ArrayList<>();
         list=classService.getClasses();

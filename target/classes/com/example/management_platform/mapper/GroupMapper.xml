@@ -7,10 +7,19 @@
     <update id="updateByGroupId">
     update group_info set  group_is_available=#{groupIsAvailable},group_score=#{groupScore},group_notice=#{groupNotice} where group_info.group_id=#{groupId}
     </update>
+    <update id="updateFinishByGroup">
+        update management_platform.group_info SET management_platform.group_info.group_finish=#{groupFinish} where management_platform.group_info.group_id=#{groupId}
+    </update>
+    <update id="updateUrlByGroupId">
+        update management_platform.group_info set management_platform.group_info.gitee_url=#{giteeUrl} where management_platform.group_info.group_id=#{groupId}
+    </update>
 
 
     <delete id="deleteByClassId">
         delete from group_info where class_id=#{classId}
+    </delete>
+    <delete id="deleteByStudentId">
+        delete from management_platform.group_info where student_id=#{studentId}
     </delete>
 
     <select id="selectByClassId" resultType="com.example.management_platform.entity.Group">
@@ -19,5 +28,8 @@
 
     <select id="selectByGroupId" resultType="com.example.management_platform.entity.Group">
         select *from group_info where group_id=#{groupId}
+    </select>
+    <select id="selectByStudentId" resultType="com.example.management_platform.entity.Group">
+        select *from group_info where student_id=#{studentId}
     </select>
 </mapper>
