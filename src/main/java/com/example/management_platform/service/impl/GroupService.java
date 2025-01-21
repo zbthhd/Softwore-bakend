@@ -1,12 +1,12 @@
 package com.example.management_platform.service.impl;
 
 import com.example.management_platform.common.R;
-import com.example.management_platform.entity.Group;
-import com.example.management_platform.entity.StudentGroup;
-import com.example.management_platform.entity.StudentScore;
+import com.example.management_platform.entity.*;
 import com.example.management_platform.mapper.GroupMapper;
 import com.example.management_platform.mapper.StudentGroupMapper;
 import com.example.management_platform.utils.ExportExcel;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import jakarta.servlet.ServletOutputStream;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,14 +22,24 @@ import static java.lang.System.out;
 @Service
 public class GroupService implements com.example.management_platform.service.GroupService {
 
-   @Autowired
-   private GroupMapper groupMapper;
+    @Autowired
+    private GroupMapper groupMapper;
+
     @Autowired
     private StudentGroupMapper studentGroupMapper;
 
     @Override
-    public List<Group> getGroupByClassId(Integer classId) {
-        return groupMapper.selectByClassId(classId);
+    public PageBeanGroup getGroupByClassId(Integer page,Integer pageSize,Integer classId) {
+            //设置分页参数
+        PageHelper.startPage(page,pageSize);
+        //执行查询 根据姓名进行查询 将这个姓名相关的人全部查询出来
+        List<Group> list=groupMapper.searchByPageAndClassId(classId);
+
+        // 创建 PageInfo 对象 用于分页
+        PageInfo<Group> pageInfo = new PageInfo<>(list);
+
+        return new PageBeanGroup(pageInfo.getList(),(long)pageInfo.getTotal());
+
     }
 
     @Override

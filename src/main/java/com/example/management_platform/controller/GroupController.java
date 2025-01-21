@@ -28,7 +28,7 @@ public class GroupController {
         return R.success(group);
     }
 
-    @PostMapping("/project_evaluation-approval")
+    @PostMapping("/project-evaluation-approval")
     public R<String> projectEvaluationApproval(@RequestBody Group group) {
         groupService.evaluationApproval(group);
         return R.success("打分立项成功");

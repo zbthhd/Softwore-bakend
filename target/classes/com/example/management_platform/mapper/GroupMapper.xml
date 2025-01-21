@@ -32,4 +32,7 @@
     <select id="selectByStudentId" resultType="com.example.management_platform.entity.Group">
         select *from group_info where student_id=#{studentId}
     </select>
+    <select id="searchByPageAndClassId" resultType="com.example.management_platform.entity.Group">
+        SELECT *FROM group_info WHERE class_id=#{classId}
+    </select>
 </mapper>
