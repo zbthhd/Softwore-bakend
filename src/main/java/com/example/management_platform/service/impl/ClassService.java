@@ -50,4 +50,9 @@ public class ClassService implements com.example.management_platform.service.Cla
         classMapper.deleteById(classId);
 
     }
+
+    @Override
+    public ClassInfo getClassNameByClassId(Integer classId) {
+        return classMapper.selectById(classId);
+    }
 }

@@ -21,5 +21,8 @@
     <select id="searchByPageAndName" resultType="com.example.management_platform.entity.ClassInfo">
         select *from class_info where class_name like concat('%',#{name},'%')
     </select>
+    <select id="selectById" resultType="com.example.management_platform.entity.ClassInfo">
+        SELECT class_info.class_name from class_info where class_info.class_id=#{classId}
+    </select>
 
 </mapper>

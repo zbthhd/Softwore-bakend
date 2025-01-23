@@ -90,5 +90,10 @@ public class StudentService implements com.example.management_platform.service.S
 
     }
 
+    @Override
+    public Student searchByStudentId(Integer studentId) {
+        return studentMapper.selectById(studentId);
+    }
+
 
 }

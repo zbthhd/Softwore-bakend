@@ -9,12 +9,14 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tools.ant.util.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping("api/common")
@@ -26,6 +28,8 @@ public class CommonController {
     private GroupService groupService;
     @Autowired
     private StudentScoreService studentScoreService;
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
 
     @GetMapping("/get-verification/{email}")
     public R<Object> getVerification(@PathVariable String email) {
@@ -33,6 +37,7 @@ public class CommonController {
         try {
             int code = (int)((Math.random()*9+1)*1000);
             mail.sendSimpleMail(code+"",email);
+            stringRedisTemplate.opsForValue().set(email,String.valueOf(code), 5, TimeUnit.MINUTES);
             return R.success(code);
         } catch (Exception e) {
             return R.error("获取验证码失败");
@@ -67,6 +72,7 @@ public class CommonController {
         // 创建输出流，调用service中exportTest方法，参数：输出流 标题名
         studentScoreService.exportExcel(response.getOutputStream(), "学生成绩表",classId);
         return null;
-
     }
+
+
 }

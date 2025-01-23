@@ -23,9 +23,7 @@
     </select>
 
 
-    <select id="find" resultType="com.example.management_platform.entity.Student">
-        select student_username from management_platform.student_info where student_username =#{studentName};
-    </select>
+
     <select id="selectByStudentUsername" resultType="com.example.management_platform.entity.Student">
         select *from management_platform.student_info where student_username=#{studentUsername}
     </select>

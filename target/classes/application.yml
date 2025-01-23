@@ -8,7 +8,10 @@ spring:
     url: jdbc:mysql://8.137.106.209:3306/management_platform?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
     username: root
     password: WpasswordP123
-
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
   mail:
     host: smtp.qq.com
     username: 2248384953@qq.com
@@ -26,10 +29,16 @@ spring:
           timeout: 5000           # 可选：设置读取超时时间
           write timeout: 5000      # 可选：设置写入超时时间
           debug: true             # 启用调试日志
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
 #??SQL??
 # application.yml
 mybatis:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     map-underscore-to-camel-case: true
-
+jwt:
+  secret: bBg9f/tsSgSmmW0sKuZn9A0uGgsc6MoZgxxeWoAo+Y4=
+  expiration: 604800000

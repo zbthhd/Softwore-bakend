@@ -20,4 +20,6 @@ public interface StudentService {
     void create(StudentDto studentDto);
 
     Student searchByUsernameAndPassword(Student student);
+
+    Student searchByStudentId(Integer studentId);
 }
