@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Group {
     private Integer groupId;
+    private Integer studentId;
     private String groupName;
     private String groupProName;
     private Byte groupScore;

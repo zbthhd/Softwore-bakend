@@ -3,12 +3,35 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.management_platform.mapper.StudentMapper">
+    <insert id="insert">
+        insert into management_platform.student_info (management_platform.student_info.student_username, management_platform.student_info.student_name, management_platform.student_info.student_number, management_platform.student_info.student_password, management_platform.student_info.student_email, management_platform.student_info.class_id) values (#{studentUsername},#{studentName},#{studentNumber},#{studentPassword},#{studentEmail},#{classId})
+    </insert>
+    <update id="updateByNameAndEmail">
+        update student_info SET student_password=#{studentPassword} where student_username=#{studentUsername}
+    </update>
+
+
+    <update id="updateByStudentUsername">
+        update management_platform.student_info set student_name=#{studentName},student_password=#{studentPassword},student_number=#{studentNumber},student_email=#{studentEmail} where student_id=#{studentId}
+    </update>
 
     <delete id="deleteByClassId">
         delete from student_info where class_id=#{classId}
     </delete>
     <select id="selectById" resultType="com.example.management_platform.entity.Student">
         select * from student_info where student_id=#{studentId}
+    </select>
+
+
+
+    <select id="selectByStudentUsername" resultType="com.example.management_platform.entity.Student">
+        select *from management_platform.student_info where student_username=#{studentUsername}
+    </select>
+    <select id="selectByEmailAndUsername" resultType="com.example.management_platform.entity.Student">
+        select *from management_platform.student_info where student_username=#{studentUsername} and student_email=#{studentEmail}
+    </select>
+    <select id="selectByUsernameAndPassword" resultType="com.example.management_platform.entity.Student">
+        select *from student_info where student_username=#{studentUsername} and student_password=#{studentPassword}
     </select>
 
 </mapper>

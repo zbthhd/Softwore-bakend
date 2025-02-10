@@ -13,4 +13,6 @@ public interface ClassService {
     PageBeanClasses page(Integer page, Integer pageSize, String name);
 
     void deleteClass(Integer classId);
+
+    ClassInfo getClassNameByClassId(Integer classId);
 }

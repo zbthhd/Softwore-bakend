@@ -14,4 +14,6 @@ public interface ClassMapper {
     List<ClassInfo> searchByPageAndName(String name);
 
     void deleteById(Integer classId);
+
+    ClassInfo selectById(Integer classId);
 }

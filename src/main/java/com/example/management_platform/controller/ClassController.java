@@ -2,10 +2,7 @@ package com.example.management_platform.controller;
 
 
 import com.example.management_platform.common.R;
-import com.example.management_platform.entity.ClassInfo;
-import com.example.management_platform.entity.Group;
-import com.example.management_platform.entity.PageBeanClasses;
-import com.example.management_platform.entity.StudentGroup;
+import com.example.management_platform.entity.*;
 import com.example.management_platform.service.ClassService;
 import com.example.management_platform.service.StudentGroupService;
 import com.example.management_platform.service.StudentScoreService;
@@ -43,13 +40,13 @@ public class ClassController {
      * @param classInfo
      * @return
      */
-    @PostMapping("/create_class")
+    @PostMapping("/create-class")
     public R<String> createClass(@RequestBody ClassInfo classInfo) {
         classService.create(classInfo);
         return R.success("增加成功");
     }
 
-    @GetMapping("/get_classes")
+    @GetMapping("/get-classes")
     public R<List<ClassInfo>> getClasses() {
         List<ClassInfo> list=new ArrayList<>();
         list=classService.getClasses();
@@ -82,7 +79,7 @@ public class ClassController {
      * @param classId
      * @return
      */
-    @DeleteMapping("/delete_class/{classId}")
+    @DeleteMapping("/delete-class/{classId}")
     public R<String> deleteClass( @PathVariable Integer classId) {
         //删除班级表里面的信息
         classService.deleteClass(classId);
@@ -106,10 +103,13 @@ public class ClassController {
     }
 
 
-    @GetMapping("/get_class_groups/{classId}")
-    public R<List<Group>> getClassGroups(@PathVariable Integer classId) {
-        List<Group> list =new ArrayList<>();
-        list=groupService.getGroupByClassId(classId);
-        return R.success(list);
+    @GetMapping("/get-class-groups/page")
+    public R<PageBeanGroup> getClassGroups(@RequestParam(defaultValue = "1") Integer classId,
+                                           @RequestParam(defaultValue = "1") Integer page,
+                                           @RequestParam(defaultValue = "10") Integer pageSize) {
+        PageBeanGroup pageBeanGroup= groupService.getGroupByClassId(page,pageSize,classId);
+
+
+        return R.success(pageBeanGroup);
     }
 }

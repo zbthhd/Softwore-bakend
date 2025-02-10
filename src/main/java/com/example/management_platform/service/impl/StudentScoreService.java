@@ -1,11 +1,15 @@
 package com.example.management_platform.service.impl;
 
 import com.example.management_platform.entity.Group;
+import com.example.management_platform.entity.StudentGroup;
 import com.example.management_platform.entity.StudentScore;
+import com.example.management_platform.mapper.GroupMapper;
 import com.example.management_platform.mapper.StudentGroupMapper;
 import com.example.management_platform.mapper.StudentScoreMapper;
 import com.example.management_platform.utils.ExportExcel;
 import jakarta.servlet.ServletOutputStream;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,8 +21,13 @@ import static java.lang.System.out;
 @Service
 public class StudentScoreService implements com.example.management_platform.service.StudentScoreService {
 
+    private static final Logger log = LoggerFactory.getLogger(StudentScoreService.class);
     @Autowired
     private StudentScoreMapper studentScoreMapper;
+
+    @Autowired
+    private GroupMapper groupMapper;
+
     @Override
     public void deleteByClassId(Integer classId) {
         studentScoreMapper.deleteByClassId(classId);
@@ -55,5 +64,37 @@ public class StudentScoreService implements com.example.management_platform.serv
         }
         out.flush();
         out.close();
+    }
+
+    @Override
+    public void expelFromGroup(Integer studentId) {
+        studentScoreMapper.updateExpelById(studentId);
+    }
+
+    @Override
+    public void applyGroupByGroupId(StudentGroup studentGroup) {
+        //先根据小组的ID 找到这个小组的项目名
+        Group group=groupMapper.selectByGroupId(studentGroup.getGroupId());
+        //然后将项目名 学生id 和小组id传进去 用一个studentScore的对象去接
+        StudentScore studentScore=new StudentScore();
+        studentScore.setStudentId(studentGroup.getStudentId());
+        studentScore.setGroupProName(group.getGroupProName());
+        studentScore.setGroupId(group.getGroupId());
+
+        studentScoreMapper.updateApplyInfo(studentScore);
+    }
+
+    @Override
+    public void enterNext(Integer studentId) {
+        StudentScore studentScore=studentScoreMapper.selectByStudentId(studentId);
+        Byte finish = studentScore.getStudentFinish();
+        if (finish != null) {
+            Byte newFinish = (byte) (finish + 1);
+            studentScore.setStudentFinish(newFinish);
+            studentScoreMapper.updateFinishByStudentId(studentScore);
+        } else {
+            // 处理null的情况
+            log.info("学生完成阶段数据异常");
+        }
     }
 }
