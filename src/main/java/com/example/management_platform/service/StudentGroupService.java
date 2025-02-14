@@ -1,5 +1,6 @@
 package com.example.management_platform.service;
 
+import com.example.management_platform.dto.StudentGroupDto;
 import com.example.management_platform.entity.PageBeanStudentGroup;
 import com.example.management_platform.entity.StudentGroup;
 
@@ -17,7 +18,7 @@ public interface StudentGroupService {
 
     void applyGroupByGroupId(StudentGroup studentGroup);
 
-    StudentGroup searchByStudentId(Integer studentId);
+    StudentGroupDto searchByStudentId(Integer studentId);
 
     PageBeanStudentGroup page(Integer page, Integer pageSize,Integer groupId);
 

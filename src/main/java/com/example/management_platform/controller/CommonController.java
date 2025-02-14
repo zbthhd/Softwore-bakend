@@ -5,6 +5,7 @@ import com.example.management_platform.common.Mail;
 import com.example.management_platform.common.R;
 import com.example.management_platform.service.impl.GroupService;
 import com.example.management_platform.service.impl.StudentScoreService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tools.ant.util.DateUtils;
@@ -30,6 +31,8 @@ public class CommonController {
     private StudentScoreService studentScoreService;
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
+
+
 
     @GetMapping("/get-verification/{email}")
     public R<Object> getVerification(@PathVariable String email) {

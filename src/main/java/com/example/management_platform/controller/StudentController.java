@@ -2,6 +2,7 @@ package com.example.management_platform.controller;
 
 import com.example.management_platform.common.R;
 import com.example.management_platform.dto.StudentDto;
+import com.example.management_platform.dto.StudentGroupDto;
 import com.example.management_platform.dto.StudentUploadDto;
 import com.example.management_platform.entity.*;
 import com.example.management_platform.mapper.ClassMapper;
@@ -54,6 +55,8 @@ public class StudentController {
     @Autowired
     private ClassService classService;
 
+    @Autowired
+    private JwtUtils jwtUtils;
     /**
      * 进行学生注册
      * @param studentDto
@@ -104,7 +107,7 @@ public class StudentController {
         cliams.put("adminUsername",result.getStudentUsername());
         cliams.put("role","student");
 
-        String jwt = JwtUtils.generateJwt(cliams);
+        String jwt = jwtUtils.generateJwt(cliams);
         log.info("登录的学生信息为：{}",result);
         return R.success(jwt);
 
@@ -280,8 +283,11 @@ public class StudentController {
      * @return
      */
     @GetMapping("/get-individual-pro")
-    public R<StudentGroup> getIndividualPro(@RequestParam("studentId") Integer studentId) {
+    public R<StudentGroupDto> getIndividualPro(@RequestParam("studentId") Integer studentId) {
+
+
         return R.success(studentGroupService.searchByStudentId(studentId));
+
     }
 
 

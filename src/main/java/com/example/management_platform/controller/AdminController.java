@@ -25,6 +25,8 @@ public class AdminController {
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
+    @Autowired
+    private JwtUtils jwtUtils;
     /**
      * 进行管理员老师注册的接口  但是此处没有进行验证码的校验
      * @param adminDto
@@ -65,7 +67,7 @@ public class AdminController {
     public R<String> login(@RequestBody Admin admin) {
 
         Admin res=adminService.login(admin);
-
+        log.info("查找结果{}",res);
         if(res==null){
             return R.error("登录失败");
         }
@@ -73,9 +75,11 @@ public class AdminController {
         Map<String,Object> cliams = new HashMap<>();
         cliams.put("adminId",res.getAdminId());
         cliams.put("adminUsername",res.getAdminUsername());
+        cliams.put("adminEmail",res.getAdminEmail());
         cliams.put("role","admin");
 
-        String jwt = JwtUtils.generateJwt(cliams);
+        String jwt = jwtUtils.generateJwt(cliams);
+        log.info(jwt);
         log.info("登录的管理员信息为：{}",admin);
         //把令牌存到响应体中
         //JwtResponse jwtResponse=new JwtResponse(jwt,admin.getAdminId(), admin.getAdminUsername());

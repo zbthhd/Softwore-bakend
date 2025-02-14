@@ -1,14 +1,14 @@
 package com.example.management_platform.service.impl;
 
 
-import com.example.management_platform.entity.ClassInfo;
-import com.example.management_platform.entity.PageBeanClasses;
-import com.example.management_platform.entity.PageBeanStudentGroup;
-import com.example.management_platform.entity.StudentGroup;
+import com.example.management_platform.dto.StudentGroupDto;
+import com.example.management_platform.entity.*;
 import com.example.management_platform.mapper.StudentGroupMapper;
+import com.example.management_platform.mapper.StudentMapper;
 import com.example.management_platform.mapper.StudentScoreMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +21,8 @@ public class StudentGroupService implements com.example.management_platform.serv
     private StudentGroupMapper studentGroupMapper;
     @Autowired
     private StudentScoreMapper studentScoreMapper;
+    @Autowired
+    private StudentMapper studentMapper;
 
 
     @Override
@@ -56,8 +58,15 @@ public class StudentGroupService implements com.example.management_platform.serv
     }
 
     @Override
-    public StudentGroup searchByStudentId(Integer studentId) {
-        return studentGroupMapper.selectByStudentId(studentId);
+    public StudentGroupDto searchByStudentId(Integer studentId) {
+        StudentGroup studentGroup = studentGroupMapper.selectByStudentId(studentId);
+        StudentGroupDto studentGroupDto=new StudentGroupDto();
+        BeanUtils.copyProperties(studentGroup, studentGroupDto);
+        //赋值另外的用户名和邮箱
+        Student student = studentMapper.selectById(studentGroup.getStudentId());
+        studentGroupDto.setStudentEmail(student.getStudentEmail());
+        studentGroupDto.setStudentUsername(student.getStudentUsername());
+        return studentGroupDto;
     }
 
     @Override
