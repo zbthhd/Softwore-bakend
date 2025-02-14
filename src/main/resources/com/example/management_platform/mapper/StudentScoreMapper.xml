@@ -3,6 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.management_platform.mapper.StudentScoreMapper">
+
     <update id="updateExpelById">
         update student_score set group_score=0,group_pro_name='未加入小组',group_id=-1,student_finish=0 where student_id=#{stduentId}
     </update>

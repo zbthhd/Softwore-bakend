@@ -23,4 +23,6 @@ public interface StudentGroupMapper {
     List<StudentGroup> searchByPageAndId(Integer groupId);
 
     void updateUrlByGroupId(StudentGroup studentGroup);
+
+    void insertByStudent(StudentGroup studentGroup);
 }

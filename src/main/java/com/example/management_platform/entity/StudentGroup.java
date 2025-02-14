@@ -18,7 +18,7 @@ public class StudentGroup {
     private String studentApplyReason;
     private String studentNotice;
     private String giteeUrl;
-
+    private Integer classId;
 
 
 }
