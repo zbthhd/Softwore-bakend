@@ -8,6 +8,7 @@ import com.example.management_platform.service.StudentGroupService;
 import com.example.management_platform.service.StudentScoreService;
 import com.example.management_platform.service.StudentService;
 import com.example.management_platform.service.impl.GroupService;
+import com.example.management_platform.utils.JwtUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +20,9 @@ import java.util.List;
 @RequestMapping("/api/class")
 @Slf4j
 public class ClassController {
+    @Autowired
+    private JwtUtils jwtUtils;
+
     @Autowired
     private ClassService classService;
 
@@ -65,10 +69,16 @@ public class ClassController {
     @GetMapping("/page")
     public R<PageBeanClasses> page(@RequestParam(defaultValue = "1") Integer page,
                                    @RequestParam(defaultValue = "10") Integer pageSize,
-                                   @RequestParam(defaultValue = "") String name
-    ){
-        log.info("我想看的是第{}页，每页总共{}个数据，要查得班级名为**{}**",page,pageSize,name);
-        PageBeanClasses pageBeanClasses=classService.page(page,pageSize,name);
+                                   @RequestParam(defaultValue = "") String name,
+                                   @RequestHeader(value = "Authorization") String authorizationHeader // 获取包含 token 的 header
+    ) {
+        String token = authorizationHeader.replace("Bearer ", ""); // 移除 "Bearer " 前缀
+        log.info("token:{}",token);
+
+        Integer adminId =(Integer) jwtUtils.parseJWT(token).get("adminId");
+        log.info("adminId:{}",adminId);
+        log.info("我想看的是第{}页，每页总共{}个数据，要查得班级名为**{}**, 管理员ID为{}", page, pageSize, name, adminId);
+        PageBeanClasses pageBeanClasses = classService.page(page, pageSize, name, adminId);
 
         return R.success(pageBeanClasses);
     }
@@ -111,5 +121,28 @@ public class ClassController {
 
 
         return R.success(pageBeanGroup);
+    }
+
+
+    @GetMapping("/get-studentsScore/page")
+    public R<PageBeanStudentScore> page(@RequestParam(defaultValue = "1") Integer page,
+                                        @RequestParam(defaultValue = "10") Integer pageSize,
+                                        @RequestParam() String classId
+    ) {
+
+        log.info("classId:{}",classId);
+        PageBeanStudentScore pageBeanStudentScore = studentScoreService.page(page, pageSize, classId);
+
+        return R.success(pageBeanStudentScore);
+    }
+
+    @GetMapping("/get-groups")
+    public R<ArrayList<Group>> page(@RequestParam() String classId) {
+
+        log.info("classId:{}",classId);
+        ArrayList<Group> list=new ArrayList<>();
+        list = groupService.searchByClassId(classId);
+
+        return R.success(list);
     }
 }

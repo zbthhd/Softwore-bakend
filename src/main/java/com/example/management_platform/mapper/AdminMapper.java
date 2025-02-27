@@ -14,4 +14,8 @@ public interface AdminMapper {
     void updateByNameAndEmail(Admin admin);
 
     Admin selectById(String id);
+
+    Admin selectByAdminUsername(String adminUsername);
+
+    void updateByUsername(AdminDto adminDto);
 }

@@ -2,6 +2,7 @@ package com.example.management_platform.controller;
 
 import com.example.management_platform.common.R;
 import com.example.management_platform.dto.StudentDto;
+import com.example.management_platform.dto.StudentGroupDto;
 import com.example.management_platform.dto.StudentUploadDto;
 import com.example.management_platform.entity.*;
 import com.example.management_platform.mapper.ClassMapper;
@@ -54,6 +55,26 @@ public class StudentController {
     @Autowired
     private ClassService classService;
 
+    @Autowired
+    private JwtUtils jwtUtils;
+
+
+
+
+    @PutMapping("/allow")
+    public R<String> allowStudent(@RequestParam("studentId") Integer studentId) {
+
+        studentGroupService.updateByStudentId(studentId);
+        return R.success("已该同学同意加入");
+    }
+
+    @PutMapping("/reject")
+    public R<String> rejectStudent(@RequestParam("studentId") Integer studentId) {
+
+        studentGroupService.updateRejectStudentId(studentId);
+        return R.success("拒绝该同学加入");
+    }
+
     /**
      * 进行学生注册
      * @param studentDto
@@ -62,11 +83,15 @@ public class StudentController {
     @PostMapping("/register")
     public R<String> register(@RequestBody StudentDto studentDto) {
         //判断这个用户名是否已经存在
-        Student student = studentService.searchByStudentUsername(studentDto.getStudentUsername());
-        if(student!=null){
+        Student student1 = studentService.searchByStudentUsername(studentDto.getStudentUsername());
+        if(student1!=null){
             return R.error("用户名已存在 请重新选择用户名");
         }
-
+//判断这个用户名是否已经存在
+        Student student2 = studentService.searchByStudentEmail(studentDto.getStudentEmail());
+        if(student2!=null){
+            return R.error("已存在此邮箱用户");
+        }
         //判断验证码是否正确
         String code=null;
         code=stringRedisTemplate.opsForValue().get(studentDto.getStudentEmail());
@@ -101,10 +126,12 @@ public class StudentController {
         // 创建JWT 放ID 用户名 以及职位
         Map<String,Object> cliams = new HashMap<>();
         cliams.put("studentId",result.getStudentId());
-        cliams.put("adminUsername",result.getStudentUsername());
+        cliams.put("studentUsername",result.getStudentUsername());
+        cliams.put("studentName",result.getStudentName());
+        cliams.put("classId",result.getClassId());
         cliams.put("role","student");
 
-        String jwt = JwtUtils.generateJwt(cliams);
+        String jwt = jwtUtils.generateJwt(cliams);
         log.info("登录的学生信息为：{}",result);
         return R.success(jwt);
 
@@ -201,7 +228,9 @@ public class StudentController {
      */
     @PostMapping("/enter-group")
     public R<String> enterGroup(@RequestBody StudentGroup studentGroup) {
-        //修改学生小组表的信息
+        //修改学生小组表的信息 去找小组的项目名
+        Group group=groupService.searchByGroupId(studentGroup.getGroupId());
+        studentGroup.setGroupProName(group.getGroupProName());
         studentGroupService.applyGroupByGroupId(studentGroup);
         log.info("修改学生小组信息成功");
 
@@ -280,19 +309,35 @@ public class StudentController {
      * @return
      */
     @GetMapping("/get-individual-pro")
-    public R<StudentGroup> getIndividualPro(@RequestParam("studentId") Integer studentId) {
-        return R.success(studentGroupService.searchByStudentId(studentId));
+    public R<StudentGroupDto> getIndividualPro(@RequestParam("studentId") Integer studentId) {
+
+        StudentGroupDto studentGroupDto = studentGroupService.searchByStudentId(studentId);
+        Group group=groupService.searchByGroupId(studentGroupDto.getGroupId());
+
+        StudentScore studentScore=studentScoreService.searchByStudentId(studentId);
+        studentGroupDto.setStudentFinish(studentScore.getStudentFinish());
+        studentGroupDto.setGroupNotice(group.getGroupNotice());
+        studentGroupDto.setGroupName(group.getGroupName());
+        return R.success(studentGroupDto);
+
     }
 
 
-
+    /**
+     * 上传文件
+     * @param studentUploadDto
+     * @return
+     * @throws IOException
+     */
     @PostMapping("/upload")
     public R<String> upload(@ModelAttribute StudentUploadDto studentUploadDto) throws IOException {
         //先判断一下这个人存不存在
         Student student=studentService.searchByStudentId(studentUploadDto.getStudentId());
-        Group group=groupService.searchByStudentId(student.getStudentId());
-        if(student==null||group==null){
-            return R.error("学生或者小组不存在");
+        //先去studentScore中找到group的id
+        StudentScore studentScore=studentScoreService.searchByStudentId(studentUploadDto.getStudentId());
+        Group group=groupService.searchByGroupId(studentScore.getGroupId());
+        if(group==null){
+            return R.error("小组不存在");
         }
         log.info("要上传的文件的名字为：{}",studentUploadDto.getFile().toString());
         MultipartFile file = studentUploadDto.getFile();
@@ -362,4 +407,52 @@ public class StudentController {
 
         return R.error("上传失败 请重新上传");
     }
+
+    /**
+     * 创建小组
+     * @param group
+     * @return
+     */
+    @PostMapping("/create-group")
+    public R<String> createGroup(@RequestBody Group group,
+                                 @RequestHeader(value = "Authorization") String authorizationHeader) {
+        String token = authorizationHeader.replace("Bearer ", ""); // 移除 "Bearer " 前缀
+        log.info("token:{}",token);
+
+        Integer studentId =(Integer) jwtUtils.parseJWT(token).get("studentId");
+        String studentName = (String) jwtUtils.parseJWT(token).get("studentName");
+        Integer classId =(Integer) jwtUtils.parseJWT(token).get("classId");
+        log.info("学生id和名字:{}{}",studentId,studentName);
+        group.setStudentId(studentId);
+        group.setGroupLeader(studentName);
+        group.setClassId(classId);
+        log.info(group.toString());
+        //进行创建的操作
+        groupService.createByGroupName(group);
+
+        return R.success("创建成功");
+    }
+
+    @GetMapping("/get-groupScore/page")
+    public R<PageBeanStudentScore> page(@RequestParam(defaultValue = "1") Integer page,
+                                        @RequestParam(defaultValue = "10") Integer pageSize,
+                                        @RequestParam() String groupId
+    ) {
+
+        log.info("classId:{}",groupId);
+        PageBeanStudentScore pageBeanStudentScore = studentScoreService.pageGroup(page, pageSize, groupId);
+
+        return R.success(pageBeanStudentScore);
+    }
+
+
+    @PostMapping("/push-notice")
+    public R<String> pushNotice(@RequestBody StudentGroup studentGroup) {
+        //修改学生小组表的信息
+        studentGroupService.applyGroupByStudentId(studentGroup);
+        log.info("修改学生小组信息成功");
+
+        return R.success("通知已发出");
+    }
+
 }

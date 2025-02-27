@@ -22,4 +22,6 @@ public interface StudentService {
     Student searchByUsernameAndPassword(Student student);
 
     Student searchByStudentId(Integer studentId);
+
+    Student searchByStudentEmail(String studentEmail);
 }

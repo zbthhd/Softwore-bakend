@@ -1,12 +1,12 @@
 package com.example.management_platform.service.impl;
 
-import com.example.management_platform.entity.Group;
-import com.example.management_platform.entity.StudentGroup;
-import com.example.management_platform.entity.StudentScore;
+import com.example.management_platform.entity.*;
 import com.example.management_platform.mapper.GroupMapper;
 import com.example.management_platform.mapper.StudentGroupMapper;
 import com.example.management_platform.mapper.StudentScoreMapper;
 import com.example.management_platform.utils.ExportExcel;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import jakarta.servlet.ServletOutputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -96,5 +96,39 @@ public class StudentScoreService implements com.example.management_platform.serv
             // 处理null的情况
             log.info("学生完成阶段数据异常");
         }
+    }
+
+    @Override
+    public PageBeanStudentScore page(Integer page, Integer pageSize, String classId) {
+        //设置分页参数
+        PageHelper.startPage(page,pageSize);
+        //执行查询 根据姓名进行查询 将这个姓名相关的人全部查询出来
+        List<StudentScore> list=studentScoreMapper.searchByPageAndId(classId);
+
+        // 创建 PageInfo 对象 用于分页
+        PageInfo<StudentScore> pageInfo = new PageInfo<>(list);
+
+
+        return new PageBeanStudentScore(pageInfo.getList(),(long)pageInfo.getTotal());
+    }
+
+    @Override
+    public StudentScore searchByStudentId(Integer studentId) {
+        return studentScoreMapper.selectByStudentId(studentId);
+    }
+
+    @Override
+    public PageBeanStudentScore pageGroup(Integer page, Integer pageSize, String groupId) {
+        //设置分页参数
+        PageHelper.startPage(page,pageSize);
+        //执行查询 根据姓名进行查询 将这个姓名相关的人全部查询出来
+        List<StudentScore> list=studentScoreMapper.searchByPageAndGroupId(groupId);
+
+        // 创建 PageInfo 对象 用于分页
+        PageInfo<StudentScore> pageInfo = new PageInfo<>(list);
+
+
+        return new PageBeanStudentScore(pageInfo.getList(),(long)pageInfo.getTotal());
+
     }
 }

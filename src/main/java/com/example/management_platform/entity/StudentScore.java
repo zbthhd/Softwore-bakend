@@ -16,4 +16,7 @@ public class StudentScore {
     private Byte groupScore;
     private Integer groupId;
     private Byte studentFinish;
+    private Integer classId;
+    private Byte studentPosition;
+
 }

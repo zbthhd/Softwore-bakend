@@ -1,6 +1,8 @@
 package com.example.management_platform.mapper;
 
 
+import com.example.management_platform.entity.Student;
+import com.example.management_platform.entity.StudentGroup;
 import com.example.management_platform.entity.StudentScore;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,4 +25,15 @@ public interface StudentScoreMapper{
     StudentScore selectByStudentId(Integer studentId);
 
     void updateFinishByStudentId(StudentScore studentScore);
+
+
+    List<StudentScore> searchByPageAndId(String classId);
+
+    void insert(Student student);
+
+    void updateProName(StudentGroup studentGroup);
+
+    List<StudentScore> searchByPageAndGroupId(String groupId);
+
+    void updateRejectByStudentId(Integer studentId);
 }

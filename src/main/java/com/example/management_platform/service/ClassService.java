@@ -10,7 +10,7 @@ public interface ClassService {
 
     List<ClassInfo> getClasses();
 
-    PageBeanClasses page(Integer page, Integer pageSize, String name);
+    PageBeanClasses page(Integer page, Integer pageSize, String name,Integer adminId);
 
     void deleteClass(Integer classId);
 

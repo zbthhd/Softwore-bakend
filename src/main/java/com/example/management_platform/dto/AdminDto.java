@@ -10,4 +10,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AdminDto extends Admin {
     private String verificationCode;
+    private String adminPasswordPre;
 }

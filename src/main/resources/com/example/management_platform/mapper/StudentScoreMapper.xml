@@ -3,6 +3,10 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.management_platform.mapper.StudentScoreMapper">
+    <insert id="insert">
+        insert into student_score (student_id, student_name, student_number, group_pro_name, class_id) VALUES (#{studentId},#{studentName},#{studentNumber},'未加入小组',#{classId})
+    </insert>
+
     <update id="updateExpelById">
         update student_score set group_score=0,group_pro_name='未加入小组',group_id=-1,student_finish=0 where student_id=#{stduentId}
     </update>
@@ -15,6 +19,12 @@
     <update id="updateFinishByStudentId">
     update management_platform.student_score set student_finish=#{studentFinish} where student_id=#{studentId}
     </update>
+    <update id="updateProName">
+        update student_score set group_pro_name=#{groupProName},group_id=#{groupId} where student_id=#{studentId}
+    </update>
+    <update id="updateRejectByStudentId">
+        update student_score set group_pro_name='未加入',group_id=-1 where student_id=#{studentId}
+    </update>
 
     <delete id="deleteByClassId">
         delete from student_score where class_id=#{classId}
@@ -24,5 +34,11 @@
     </select>
     <select id="selectByStudentId" resultType="com.example.management_platform.entity.StudentScore">
         select *from management_platform.student_score where student_id=#{studentId}
+    </select>
+    <select id="searchByPageAndId" resultType="com.example.management_platform.entity.StudentScore">
+        select *from student_score where class_id=#{classId}
+    </select>
+    <select id="searchByPageAndGroupId" resultType="com.example.management_platform.entity.StudentScore">
+        select *from student_score where group_id=#{groupId}
     </select>
 </mapper>

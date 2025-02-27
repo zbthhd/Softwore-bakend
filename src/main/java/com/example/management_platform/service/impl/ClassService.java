@@ -32,11 +32,11 @@ public class ClassService implements com.example.management_platform.service.Cla
     }
 
     @Override
-    public PageBeanClasses page(Integer page, Integer pageSize, String name) {
+    public PageBeanClasses page(Integer page, Integer pageSize, String name,Integer adminId) {
         //设置分页参数
         PageHelper.startPage(page,pageSize);
         //执行查询 根据姓名进行查询 将这个姓名相关的人全部查询出来
-        List<ClassInfo> list=classMapper.searchByPageAndName(name);
+        List<ClassInfo> list=classMapper.searchByPageAndName(name,adminId);
 
         // 创建 PageInfo 对象 用于分页
         PageInfo<ClassInfo> pageInfo = new PageInfo<>(list);

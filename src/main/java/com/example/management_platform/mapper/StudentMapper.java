@@ -21,4 +21,6 @@ public interface StudentMapper {
     void insert(StudentDto studentDto);
 
     Student selectByUsernameAndPassword(Student student);
+
+    Student selectByEmail(String studentEmail);
 }

@@ -11,9 +11,11 @@ public interface ClassMapper {
 
     List<ClassInfo> getClasses();
 
-    List<ClassInfo> searchByPageAndName(String name);
+    List<ClassInfo> searchByPageAndName(String name, Integer adminId);
 
     void deleteById(Integer classId);
 
     ClassInfo selectById(Integer classId);
+
+    void updateStudentNumber(ClassInfo classInfo);
 }

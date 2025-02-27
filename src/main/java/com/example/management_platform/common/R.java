@@ -8,7 +8,7 @@ import java.util.Map;
 @Data
 public class R<T> {
 
-    private Integer code; //编码：1成功，0和其它数字为失败
+    private Integer code; //编码：200成功，其它数字为失败
 
     private String msg; //错误信息
 
@@ -19,7 +19,7 @@ public class R<T> {
     public static <T> R<T> success(T object) {
         R<T> r = new R<T>();
         r.data = object;
-        r.code = 1;
+        r.code = 200;
         return r;
     }
 

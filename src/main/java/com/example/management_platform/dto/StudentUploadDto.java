@@ -11,4 +11,5 @@ import org.springframework.web.multipart.MultipartFile;
 @NoArgsConstructor
 public class StudentUploadDto extends Student {
     private MultipartFile file;
+
 }

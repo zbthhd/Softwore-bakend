@@ -8,6 +8,9 @@
     <insert id="insert">
         insert into management_platform.class_info (admin_username, class_name, admin_id) values (#{adminUsername},#{className},#{adminId})
     </insert>
+    <update id="updateStudentNumber">
+        update class_info set class_student_number=#{classStudentNumber} where class_id=#{classId}
+    </update>
     <delete id="deleteById">
     delete from class_info where class_id=#{classId}
     </delete>
@@ -19,10 +22,10 @@
 
 
     <select id="searchByPageAndName" resultType="com.example.management_platform.entity.ClassInfo">
-        select *from class_info where class_name like concat('%',#{name},'%')
+        select *from class_info where class_name like concat('%',#{name},'%') and admin_id=#{adminId}
     </select>
     <select id="selectById" resultType="com.example.management_platform.entity.ClassInfo">
-        SELECT class_info.class_name from class_info where class_info.class_id=#{classId}
+        SELECT * from class_info where class_info.class_id=#{classId}
     </select>
 
 </mapper>

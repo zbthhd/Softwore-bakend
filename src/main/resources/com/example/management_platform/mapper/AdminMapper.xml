@@ -10,6 +10,9 @@
     <update id="updateByNameAndEmail">
         update management_platform.admin_info set admin_password=#{adminPassword} where admin_username=#{adminUsername} and admin_email=#{adminEmail}
     </update>
+    <update id="updateByUsername">
+        update admin_info set admin_email=#{adminEmail},admin_password=#{adminPassword} where admin_username=#{adminUsername}
+    </update>
     <select id="selectByAdminUsernameAndAdminPassword"
             resultType="com.example.management_platform.entity.Admin">
         select * from management_platform.admin_info where admin_username=#{adminUsername} and admin_password=#{adminPassword}
@@ -18,5 +21,8 @@
 
     <select id="selectById" resultType="com.example.management_platform.entity.Admin">
         select *from admin_info where admin_id=#{id}
+    </select>
+    <select id="selectByAdminUsername" resultType="com.example.management_platform.entity.Admin">
+        select *from admin_info where admin_username=#{adminUsername}
     </select>
 </mapper>

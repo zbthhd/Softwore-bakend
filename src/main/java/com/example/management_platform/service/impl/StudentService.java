@@ -1,9 +1,8 @@
 package com.example.management_platform.service.impl;
 
 import com.example.management_platform.dto.StudentDto;
-import com.example.management_platform.entity.Admin;
-import com.example.management_platform.entity.Student;
-import com.example.management_platform.mapper.StudentMapper;
+import com.example.management_platform.entity.*;
+import com.example.management_platform.mapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.example.management_platform.common.R;
 import com.example.management_platform.dto.StudentDto;
@@ -25,6 +24,12 @@ public class StudentService implements com.example.management_platform.service.S
     private StudentMapper StudentMapper;
     @Autowired
     private StudentMapper studentMapper;
+    @Autowired
+    private StudentScoreMapper studentScoreMapper;
+    @Autowired
+    private StudentGroupMapper studentGroupMapper;
+    @Autowired
+    private ClassMapper classMapper;
 
 
     @Override
@@ -77,8 +82,26 @@ public class StudentService implements com.example.management_platform.service.S
 
         String studentPassword = studentDto.getStudentPassword();
         studentDto.setStudentPassword(DigestUtils.md5DigestAsHex(studentPassword.getBytes()));
-
         studentMapper.insert(studentDto);
+        Student student = studentMapper.selectByStudentUsername(studentDto.getStudentUsername());
+        //学生信息表创建成功后往学生小组表中插入默认细腻
+        StudentGroup studentGroup=new StudentGroup();
+        studentGroup.setStudentId(student.getStudentId());
+        studentGroup.setStudentName(studentDto.getStudentName());
+        studentGroup.setStudentNumber(studentDto.getStudentNumber());
+        studentGroup.setStudentPosition((byte) 0);
+        studentGroup.setGroupId(-1);
+        studentGroup.setGroupProName("未加入小组");
+        studentGroup.setClassId(studentDto.getClassId());
+        studentGroupMapper.insertByStudent(studentGroup);
+        //在studentScore中创建一条初始记录
+        studentScoreMapper.insert(student);
+
+        //将班级信息number数加1
+        ClassInfo classInfo=classMapper.selectById(studentDto.getClassId());
+        int number = classInfo.getClassStudentNumber() + 1;
+        classInfo.setClassStudentNumber((byte)number);
+        classMapper.updateStudentNumber(classInfo);
     }
 
     @Override
@@ -93,6 +116,11 @@ public class StudentService implements com.example.management_platform.service.S
     @Override
     public Student searchByStudentId(Integer studentId) {
         return studentMapper.selectById(studentId);
+    }
+
+    @Override
+    public Student searchByStudentEmail(String studentEmail) {
+        return studentMapper.selectByEmail(studentEmail);
     }
 
 

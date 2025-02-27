@@ -3,6 +3,9 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.management_platform.mapper.GroupMapper">
+    <insert id="insertByGroupName">
+        insert into group_info(student_id, group_name, group_pro_name, group_leader,  class_id) values (#{studentId},#{groupName},#{groupProName},#{groupLeader},#{classId})
+    </insert>
 
     <update id="updateByGroupId">
     update group_info set  group_is_available=#{groupIsAvailable},group_score=#{groupScore},group_notice=#{groupNotice} where group_info.group_id=#{groupId}
