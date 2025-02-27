@@ -11,4 +11,7 @@ import lombok.NoArgsConstructor;
 public class StudentGroupDto extends StudentGroup {
     private String studentUsername;
     private String studentEmail;
+    private byte studentFinish;
+    private String groupNotice;
+    private String groupName;
 }

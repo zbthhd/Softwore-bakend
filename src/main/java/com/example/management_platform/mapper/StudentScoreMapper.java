@@ -1,6 +1,7 @@
 package com.example.management_platform.mapper;
 
 
+import com.example.management_platform.entity.Student;
 import com.example.management_platform.entity.StudentGroup;
 import com.example.management_platform.entity.StudentScore;
 import org.apache.ibatis.annotations.Mapper;
@@ -25,5 +26,14 @@ public interface StudentScoreMapper{
 
     void updateFinishByStudentId(StudentScore studentScore);
 
-    void insertByStudent(StudentGroup studentGroup);
+
+    List<StudentScore> searchByPageAndId(String classId);
+
+    void insert(Student student);
+
+    void updateProName(StudentGroup studentGroup);
+
+    List<StudentScore> searchByPageAndGroupId(String groupId);
+
+    void updateRejectByStudentId(Integer studentId);
 }

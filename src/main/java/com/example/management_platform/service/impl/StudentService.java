@@ -2,9 +2,7 @@ package com.example.management_platform.service.impl;
 
 import com.example.management_platform.dto.StudentDto;
 import com.example.management_platform.entity.*;
-import com.example.management_platform.mapper.StudentGroupMapper;
-import com.example.management_platform.mapper.StudentMapper;
-import com.example.management_platform.mapper.StudentScoreMapper;
+import com.example.management_platform.mapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.example.management_platform.common.R;
 import com.example.management_platform.dto.StudentDto;
@@ -30,6 +28,8 @@ public class StudentService implements com.example.management_platform.service.S
     private StudentScoreMapper studentScoreMapper;
     @Autowired
     private StudentGroupMapper studentGroupMapper;
+    @Autowired
+    private ClassMapper classMapper;
 
 
     @Override
@@ -94,6 +94,14 @@ public class StudentService implements com.example.management_platform.service.S
         studentGroup.setGroupProName("未加入小组");
         studentGroup.setClassId(studentDto.getClassId());
         studentGroupMapper.insertByStudent(studentGroup);
+        //在studentScore中创建一条初始记录
+        studentScoreMapper.insert(student);
+
+        //将班级信息number数加1
+        ClassInfo classInfo=classMapper.selectById(studentDto.getClassId());
+        int number = classInfo.getClassStudentNumber() + 1;
+        classInfo.setClassStudentNumber((byte)number);
+        classMapper.updateStudentNumber(classInfo);
     }
 
     @Override
@@ -108,6 +116,11 @@ public class StudentService implements com.example.management_platform.service.S
     @Override
     public Student searchByStudentId(Integer studentId) {
         return studentMapper.selectById(studentId);
+    }
+
+    @Override
+    public Student searchByStudentEmail(String studentEmail) {
+        return studentMapper.selectByEmail(studentEmail);
     }
 
 

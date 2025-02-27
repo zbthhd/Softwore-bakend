@@ -68,4 +68,16 @@ public class AdminService implements com.example.management_platform.service.Adm
     public Admin selectUserById(String id) {
         return adminMapper.selectById(id);
     }
+
+    @Override
+    public Admin searchByAdminUsername(String adminUsername) {
+        return adminMapper.selectByAdminUsername(adminUsername);
+    }
+
+    public void updateInfo(AdminDto adminDto) {
+        String adminPassword = adminDto.getAdminPassword();
+        adminDto.setAdminPassword(DigestUtils.md5DigestAsHex(adminDto.getAdminPassword().getBytes()));
+
+        adminMapper.updateByUsername(adminDto);
+    }
 }

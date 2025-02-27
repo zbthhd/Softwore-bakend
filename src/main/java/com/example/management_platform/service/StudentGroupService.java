@@ -22,4 +22,9 @@ public interface StudentGroupService {
 
     PageBeanStudentGroup page(Integer page, Integer pageSize,Integer groupId);
 
+    void applyGroupByStudentId(StudentGroup studentGroup);
+
+    void updateByStudentId(Integer studentId);
+
+    void updateRejectStudentId(Integer studentId);
 }

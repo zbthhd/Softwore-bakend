@@ -5,6 +5,7 @@ import com.example.management_platform.entity.Group;
 import com.example.management_platform.entity.PageBeanGroup;
 import jakarta.servlet.ServletOutputStream;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public interface GroupService {
@@ -27,4 +28,10 @@ public interface GroupService {
     void addGiteeUrl(Group group);
 
     Group getGroupInfoByStudentId(Integer studentId);
+
+    void createByGroupName(Group group);
+
+    Group searchByGroupId(Integer groupId);
+
+    ArrayList<Group> searchByClassId(String classId);
 }

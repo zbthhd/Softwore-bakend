@@ -11,4 +11,6 @@ public interface AdminService {
     void findBack(AdminDto adminDto);
 
     Admin selectUserById(String id);
+
+    Admin searchByAdminUsername(String adminUsername);
 }

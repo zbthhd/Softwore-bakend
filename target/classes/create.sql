@@ -29,7 +29,7 @@ create table group_info
     group_name         varchar(30)                        not null,
     group_pro_name     varchar(30)                        not null,
     group_score        decimal(5, 2) default 0.00         null,
-    group_is_available tinyint       default 1            not null,
+    group_is_available tinyint       default 0            not null,
     group_leader       varchar(10)                        not null,
     group_notice       text                               null,
     group_finish       tinyint       default 0            not null,

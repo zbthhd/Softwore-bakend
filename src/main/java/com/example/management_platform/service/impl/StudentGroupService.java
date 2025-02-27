@@ -83,6 +83,22 @@ public class StudentGroupService implements com.example.management_platform.serv
 
     }
 
+    @Override
+    public void applyGroupByStudentId(StudentGroup studentGroup) {
+        studentGroupMapper.updateInfoByStudent(studentGroup);
+    }
+
+    @Override
+    public void updateByStudentId(Integer studentId) {
+        studentGroupMapper.updateAllowByStudentId(studentId);
+    }
+
+    @Override
+    public void updateRejectStudentId(Integer studentId) {
+        studentGroupMapper.updateRejectByStudentId(studentId);
+        //学生成绩表 groupId  groupName
+        studentScoreMapper.updateRejectByStudentId(studentId);
+    }
 
 
 }

@@ -4,6 +4,7 @@ import com.example.management_platform.common.R;
 import com.example.management_platform.entity.*;
 import com.example.management_platform.mapper.GroupMapper;
 import com.example.management_platform.mapper.StudentGroupMapper;
+import com.example.management_platform.mapper.StudentScoreMapper;
 import com.example.management_platform.utils.ExportExcel;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -27,6 +28,8 @@ public class GroupService implements com.example.management_platform.service.Gro
 
     @Autowired
     private StudentGroupMapper studentGroupMapper;
+    @Autowired
+    private StudentScoreMapper studentScoreMapper;
 
     @Override
     public PageBeanGroup getGroupByClassId(Integer page,Integer pageSize,Integer classId) {
@@ -55,6 +58,13 @@ public class GroupService implements com.example.management_platform.service.Gro
     @Override
     public void evaluationApproval(Group group) {
         groupMapper.updateByGroupId(group);
+        //还需要给学生打分
+        StudentScore studentScore = new StudentScore();
+        studentScore.setGroupId(group.getGroupId());
+        studentScore.setGroupScore(group.getGroupScore());
+
+
+        studentGroupMapper.updateScoreByGroupId(group);
     }
 
     @Override
@@ -72,7 +82,7 @@ public class GroupService implements com.example.management_platform.service.Gro
         for (int i=0; i<groupList.size(); i++){
             //将数据库查到的每条数据 循环封装到Object[]
             group=groupList.get(i);
-
+            log.info(group.getGroupName());
             Object[] objs = new Object[]{group.getGroupName(),group.getGroupProName(),group.getGroupLeader(),group.getGroupScore(),group.getGiteeUrl()};
             //将转换好的数据 存入dataList
             dataList.add(objs);
@@ -135,5 +145,34 @@ public class GroupService implements com.example.management_platform.service.Gro
 
        return groupMapper.selectByGroupId(studentGroup.getGroupId());
 
+    }
+
+    @Override
+    public void createByGroupName(Group group) {
+        groupMapper.insertByGroupName(group);
+
+        //往小组信息表中插入信息后 更改学生小组表
+        Group newGroup = groupMapper.selectByStudentId(group.getStudentId());
+        StudentGroup studentGroup=new StudentGroup();
+
+        studentGroup.setGroupId(newGroup.getGroupId());
+        studentGroup.setGroupProName(newGroup.getGroupProName());
+        studentGroup.setStudentId(newGroup.getStudentId());
+        studentGroup.setStudentPosition((byte)1);
+        studentGroupMapper.updateLeaderInfoByStudentId(studentGroup);
+
+        //更改学生得分表中的项目名
+        studentScoreMapper.updateProName(studentGroup);
+
+    }
+
+    @Override
+    public Group searchByGroupId(Integer groupId) {
+        return groupMapper.selectByGroupId(groupId);
+    }
+
+    @Override
+    public ArrayList<Group> searchByClassId(String classId) {
+        return (ArrayList<Group>) groupMapper.selectByClassId( Integer.parseInt(classId));
     }
 }

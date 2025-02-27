@@ -12,7 +12,7 @@
 
 
     <update id="updateByStudentUsername">
-        update management_platform.student_info set student_name=#{studentName},student_password=#{studentPassword},student_number=#{studentNumber},student_email=#{studentEmail} where student_id=#{studentId}
+        update management_platform.student_info set student_name=#{studentName},student_password=#{studentPassword},student_number=#{studentNumber},student_email=#{studentEmail} where management_platform.student_info.student_username=#{studentUsername}
     </update>
 
     <delete id="deleteByClassId">
@@ -32,6 +32,9 @@
     </select>
     <select id="selectByUsernameAndPassword" resultType="com.example.management_platform.entity.Student">
         select *from student_info where student_username=#{studentUsername} and student_password=#{studentPassword}
+    </select>
+    <select id="selectByEmail" resultType="com.example.management_platform.entity.Student">
+        select *from student_info where  student_email=#{studentEmail}
     </select>
 
 </mapper>

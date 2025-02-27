@@ -3,12 +3,15 @@ package com.example.management_platform.controller;
 
 import com.example.management_platform.common.R;
 import com.example.management_platform.dto.AdminDto;
+import com.example.management_platform.dto.StudentDto;
 import com.example.management_platform.entity.Admin;
+import com.example.management_platform.entity.Student;
 import com.example.management_platform.service.impl.AdminService;
 import com.example.management_platform.utils.JwtUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -122,6 +125,24 @@ public class AdminController {
     }
 
 
+    @PostMapping("/update")
+    public R<String> update(@RequestBody AdminDto adminDto) {
+        //先根据这个这个adminUsername去找到这个学生验证原密码是否正确
+        Admin admin = adminService.searchByAdminUsername(adminDto.getAdminUsername());
+        if(admin==null){
+            return R.error("用户名不存在");
+        }
+        //把原始密码进行MD5加密 加密后对边数据库中的密码
+        String adminPassword = adminDto.getAdminPasswordPre();
+        String s = DigestUtils.md5DigestAsHex(adminPassword.getBytes());
+        log.info(s);
+        if(!s.equals(admin.getAdminPassword())){
+            return R.error("原密码错误 请核对后重新输入");
+        }
+        adminService.updateInfo(adminDto);
+        log.info("修改学生信息表完毕");
+        return R.success("成功");
+    }
 
 
 }

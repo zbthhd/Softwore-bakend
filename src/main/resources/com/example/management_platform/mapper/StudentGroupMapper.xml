@@ -13,10 +13,26 @@
         update management_platform.student_group set group_id=-1,student_position=-1,student_apply_reason=null,student_notice=null,gitee_url='未加入仓库' where student_id=#{studentId}
     </update>
     <update id="updateApplyInfo">
-        update management_platform.student_group set student_apply_reason=#{studentApplyReason},group_id=#{groupId},student_position=2 where student_id=#{studentId}
+        update management_platform.student_group set student_apply_reason=#{studentApplyReason},group_id=#{groupId},student_position=2,group_pro_name=#{groupProName} where student_id=#{studentId}
+
     </update>
     <update id="updateUrlByGroupId">
         update student_group set gitee_url=#{giteeUrl} where group_id=#{groupId}
+    </update>
+    <update id="updateLeaderInfoByStudentId">
+        update student_group set group_id=#{groupId},group_pro_name=#{groupProName},student_position=#{studentPosition} where student_id=#{studentId}
+    </update>
+    <update id="updateInfoByStudent">
+        update student_group set student_notice=#{studentNotice} where student_id=#{studentId}
+    </update>
+    <update id="updateAllowByStudentId">
+        update student_group set student_position=0,student_notice='加入成功' where student_id=#{studentId}
+    </update>
+    <update id="updateRejectByStudentId">
+        update student_group set student_notice='该小组拒绝加入 重新申请',student_position=0,group_id=-1 where student_group.student_id=#{studentId}
+    </update>
+    <update id="updateScoreByGroupId">
+        update student_score set group_score=#{groupScore} where group_id=#{groupId}
     </update>
 
     <delete id="deleteByClassId">
