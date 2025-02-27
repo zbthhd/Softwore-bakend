@@ -25,6 +25,9 @@
     <update id="updateRejectByStudentId">
         update student_score set group_pro_name='未加入',group_id=-1 where student_id=#{studentId}
     </update>
+    <update id="updatePro">
+        update student_score set group_pro_name=#{groupProName} where student_id=#{studentId}
+    </update>
 
     <delete id="deleteByClassId">
         delete from student_score where class_id=#{classId}

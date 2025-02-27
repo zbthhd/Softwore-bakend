@@ -13,4 +13,5 @@ public interface AdminService {
     Admin selectUserById(String id);
 
     Admin searchByAdminUsername(String adminUsername);
+    void updateInfo(AdminDto adminDto);
 }

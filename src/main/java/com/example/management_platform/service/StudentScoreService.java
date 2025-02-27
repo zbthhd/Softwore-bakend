@@ -22,4 +22,6 @@ public interface StudentScoreService {
     StudentScore searchByStudentId(Integer studentId);
 
     PageBeanStudentScore pageGroup(Integer page, Integer pageSize, String groupId);
+
+    void goBack(Integer studentId);
 }

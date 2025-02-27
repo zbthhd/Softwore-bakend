@@ -27,4 +27,6 @@ public interface GroupMapper {
     List<Group> searchByPageAndClassId(Integer classId);
 
     void insertByGroupName(Group group);
+
+    void updatePro(Group group);
 }

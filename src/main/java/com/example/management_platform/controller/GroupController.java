@@ -58,6 +58,14 @@ public class GroupController {
         return R.success("小组成功进入下一阶段");
     }
 
+    @PutMapping("/go-back")
+    public R<String> goBack(@RequestParam("studentId") Integer studentId) {
+
+        groupService.goBack(studentId);
+        return R.success("小组回到上一阶段");
+    }
+
+
     @PostMapping("/add-gitee-url")
     public R<String> addGiteeUrl(@RequestBody Group group) {
         //修改小组的url

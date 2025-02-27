@@ -1,6 +1,7 @@
 package com.example.management_platform.mapper;
 
 
+import com.example.management_platform.entity.Group;
 import com.example.management_platform.entity.Student;
 import com.example.management_platform.entity.StudentGroup;
 import com.example.management_platform.entity.StudentScore;
@@ -36,4 +37,6 @@ public interface StudentScoreMapper{
     List<StudentScore> searchByPageAndGroupId(String groupId);
 
     void updateRejectByStudentId(Integer studentId);
+
+    void updatePro(Group group);
 }

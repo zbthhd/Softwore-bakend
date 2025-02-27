@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,12 +29,14 @@ public class StudentScoreService implements com.example.management_platform.serv
     @Autowired
     private GroupMapper groupMapper;
 
+    @Transactional
     @Override
     public void deleteByClassId(Integer classId) {
         studentScoreMapper.deleteByClassId(classId);
 
     }
 
+    @Transactional
     @Override
     public void exportExcel(ServletOutputStream outputStream, String tile, Integer classId) {
         // 定义列标 就是一个Excel的每一个字段标题
@@ -66,11 +69,13 @@ public class StudentScoreService implements com.example.management_platform.serv
         out.close();
     }
 
+    @Transactional
     @Override
     public void expelFromGroup(Integer studentId) {
         studentScoreMapper.updateExpelById(studentId);
     }
 
+    @Transactional
     @Override
     public void applyGroupByGroupId(StudentGroup studentGroup) {
         //先根据小组的ID 找到这个小组的项目名
@@ -84,6 +89,7 @@ public class StudentScoreService implements com.example.management_platform.serv
         studentScoreMapper.updateApplyInfo(studentScore);
     }
 
+    @Transactional
     @Override
     public void enterNext(Integer studentId) {
         StudentScore studentScore=studentScoreMapper.selectByStudentId(studentId);
@@ -98,6 +104,7 @@ public class StudentScoreService implements com.example.management_platform.serv
         }
     }
 
+    @Transactional
     @Override
     public PageBeanStudentScore page(Integer page, Integer pageSize, String classId) {
         //设置分页参数
@@ -112,11 +119,13 @@ public class StudentScoreService implements com.example.management_platform.serv
         return new PageBeanStudentScore(pageInfo.getList(),(long)pageInfo.getTotal());
     }
 
+    @Transactional
     @Override
     public StudentScore searchByStudentId(Integer studentId) {
         return studentScoreMapper.selectByStudentId(studentId);
     }
 
+    @Transactional
     @Override
     public PageBeanStudentScore pageGroup(Integer page, Integer pageSize, String groupId) {
         //设置分页参数
@@ -130,5 +139,20 @@ public class StudentScoreService implements com.example.management_platform.serv
 
         return new PageBeanStudentScore(pageInfo.getList(),(long)pageInfo.getTotal());
 
+    }
+
+    @Transactional
+    @Override
+    public void goBack(Integer studentId) {
+        StudentScore studentScore=studentScoreMapper.selectByStudentId(studentId);
+        Byte finish = studentScore.getStudentFinish();
+        if (finish != null) {
+            Byte newFinish = (byte) (finish - 1);
+            studentScore.setStudentFinish(newFinish);
+            studentScoreMapper.updateFinishByStudentId(studentScore);
+        } else {
+            // 处理null的情况
+            log.info("学生完成阶段数据异常");
+        }
     }
 }

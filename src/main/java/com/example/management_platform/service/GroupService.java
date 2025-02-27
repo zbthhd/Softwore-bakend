@@ -34,4 +34,8 @@ public interface GroupService {
     Group searchByGroupId(Integer groupId);
 
     ArrayList<Group> searchByClassId(String classId);
+
+    void goBack(Integer studentId);
+
+    void createPro(Group group);
 }

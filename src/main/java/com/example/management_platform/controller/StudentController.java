@@ -241,6 +241,9 @@ public class StudentController {
         return R.success("申请以发出 等待通知");
     }
 
+
+
+
     /**
      * 学生更新个人信息
      * @param studentDto
@@ -301,6 +304,15 @@ public class StudentController {
         studentScoreService.enterNext(studentId);
 
         return R.success("进入下一阶段成功");
+    }
+
+    @PutMapping("/go-back")
+    public R<String> goBack(@RequestParam("studentId") Integer studentId) {
+
+        //学生得分信息进入下一个阶段
+        studentScoreService.goBack(studentId);
+
+        return R.success("返回上一阶段成功");
     }
 
     /**
@@ -430,6 +442,33 @@ public class StudentController {
         //进行创建的操作
         groupService.createByGroupName(group);
 
+        return R.success("创建成功");
+    }
+
+
+    /**
+     * 创建项目
+     * @param group
+     * @return
+     */
+    @PostMapping("/create-pro")
+    public R<String> createPro(@RequestBody Group group,
+                                 @RequestHeader(value = "Authorization") String authorizationHeader) {
+        log.info("进来创建项目的接口没得");
+        String token = authorizationHeader.replace("Bearer ", ""); // 移除 "Bearer " 前缀
+        log.info("token:{}",token);
+
+        Integer studentId =(Integer) jwtUtils.parseJWT(token).get("studentId");
+        String studentName = (String) jwtUtils.parseJWT(token).get("studentName");
+        Integer classId =(Integer) jwtUtils.parseJWT(token).get("classId");
+
+        group.setStudentId(studentId);
+        group.setGroupLeader(studentName);
+
+        log.info(group.toString());
+        //进行创建的操作
+        groupService.createPro(group);
+        log.info("到这个位置了吗");
         return R.success("创建成功");
     }
 

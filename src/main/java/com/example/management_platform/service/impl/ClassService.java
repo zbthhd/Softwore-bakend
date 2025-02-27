@@ -24,6 +24,7 @@ public class ClassService implements com.example.management_platform.service.Cla
         return;
     }
 
+    @Transactional
     @Override
     public List<ClassInfo> getClasses() {
 
@@ -31,6 +32,7 @@ public class ClassService implements com.example.management_platform.service.Cla
         return classMapper.getClasses();
     }
 
+    @Transactional
     @Override
     public PageBeanClasses page(Integer page, Integer pageSize, String name,Integer adminId) {
         //设置分页参数
@@ -45,12 +47,14 @@ public class ClassService implements com.example.management_platform.service.Cla
 
     }
 
+    @Transactional
     @Override
     public void deleteClass(Integer classId) {
         classMapper.deleteById(classId);
 
     }
 
+    @Transactional
     @Override
     public ClassInfo getClassNameByClassId(Integer classId) {
         return classMapper.selectById(classId);

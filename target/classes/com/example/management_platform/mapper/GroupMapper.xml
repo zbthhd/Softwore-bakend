@@ -16,6 +16,9 @@
     <update id="updateUrlByGroupId">
         update management_platform.group_info set management_platform.group_info.gitee_url=#{giteeUrl} where management_platform.group_info.group_id=#{groupId}
     </update>
+    <update id="updatePro">
+        update group_info set  group_pro_name=#{groupProName} where student_id=#{studentId}
+    </update>
 
 
     <delete id="deleteByClassId">

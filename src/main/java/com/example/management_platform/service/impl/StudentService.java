@@ -13,6 +13,7 @@ import org.apache.ibatis.jdbc.Null;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.expression.spel.ast.NullLiteral;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
 
 
@@ -65,11 +66,13 @@ public class StudentService implements com.example.management_platform.service.S
 
     }
 
+    @Transactional
     @Override
     public Student searchByEmailAndUsername(StudentDto studentDto) {
         return studentMapper.selectByEmailAndUsername(studentDto);
     }
 
+    @Transactional
     @Override
     public void updateInfo(StudentDto studentDto) {
         String studentPassword = studentDto.getStudentPassword();
@@ -77,6 +80,7 @@ public class StudentService implements com.example.management_platform.service.S
         studentMapper.updateByStudentUsername(studentDto);
     }
 
+    @Transactional
     @Override
     public void create(StudentDto studentDto) {
 
@@ -104,6 +108,7 @@ public class StudentService implements com.example.management_platform.service.S
         classMapper.updateStudentNumber(classInfo);
     }
 
+    @Transactional
     @Override
     public Student searchByUsernameAndPassword(Student student) {
 
@@ -113,11 +118,13 @@ public class StudentService implements com.example.management_platform.service.S
 
     }
 
+    @Transactional
     @Override
     public Student searchByStudentId(Integer studentId) {
         return studentMapper.selectById(studentId);
     }
 
+    @Transactional
     @Override
     public Student searchByStudentEmail(String studentEmail) {
         return studentMapper.selectByEmail(studentEmail);

@@ -64,16 +64,20 @@ public class AdminService implements com.example.management_platform.service.Adm
         adminMapper.updateByNameAndEmail(admin);
     }
 
+    @Transactional
     @Override
     public Admin selectUserById(String id) {
         return adminMapper.selectById(id);
     }
 
+    @Transactional
     @Override
     public Admin searchByAdminUsername(String adminUsername) {
         return adminMapper.selectByAdminUsername(adminUsername);
     }
 
+    @Transactional
+    @Override
     public void updateInfo(AdminDto adminDto) {
         String adminPassword = adminDto.getAdminPassword();
         adminDto.setAdminPassword(DigestUtils.md5DigestAsHex(adminDto.getAdminPassword().getBytes()));

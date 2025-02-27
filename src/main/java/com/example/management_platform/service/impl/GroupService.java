@@ -12,6 +12,7 @@ import jakarta.servlet.ServletOutputStream;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -45,16 +46,19 @@ public class GroupService implements com.example.management_platform.service.Gro
 
     }
 
+    @Transactional
     @Override
     public void deleteByClassId(Integer classId) {
         groupMapper.deleteByClassId(classId);
     }
 
+    @Transactional
     @Override
     public Group getGroupInfoByGroupId(int groupId) {
         return groupMapper.selectByGroupId(groupId);
     }
 
+    @Transactional
     @Override
     public void evaluationApproval(Group group) {
         groupMapper.updateByGroupId(group);
@@ -67,6 +71,7 @@ public class GroupService implements com.example.management_platform.service.Gro
         studentGroupMapper.updateScoreByGroupId(group);
     }
 
+    @Transactional
     @Override
     public void exportExcel(ServletOutputStream outputStream, String title,Integer classId) {
         // 定义列标 就是一个Excel的每一个字段标题
@@ -99,16 +104,19 @@ public class GroupService implements com.example.management_platform.service.Gro
         out.close();
     }
 
+    @Transactional
     @Override
     public void deleteByStudentId(Integer studentId) {
         groupMapper.deleteByStudentId(studentId);
     }
 
+    @Transactional
     @Override
     public Group searchByStudentId(Integer studentId) {
         return groupMapper.selectByStudentId(studentId);
     }
 
+    @Transactional
     @Override
     public void enterNext(Integer studentId) {
         Group group=groupMapper.selectByStudentId(studentId);
@@ -125,6 +133,7 @@ public class GroupService implements com.example.management_platform.service.Gro
 
     }
 
+    @Transactional
     @Override
     public void addGiteeUrl(Group group) {
         //先修改小组的url
@@ -138,6 +147,7 @@ public class GroupService implements com.example.management_platform.service.Gro
 
     }
 
+    @Transactional
     @Override
     public Group getGroupInfoByStudentId(Integer studentId) {
         //先通过学生小组信息表找到小组的ID 再根据小组ID找到小组信息即可
@@ -147,6 +157,7 @@ public class GroupService implements com.example.management_platform.service.Gro
 
     }
 
+    @Transactional
     @Override
     public void createByGroupName(Group group) {
         groupMapper.insertByGroupName(group);
@@ -166,13 +177,42 @@ public class GroupService implements com.example.management_platform.service.Gro
 
     }
 
+    @Transactional
     @Override
     public Group searchByGroupId(Integer groupId) {
         return groupMapper.selectByGroupId(groupId);
     }
 
+    @Transactional
     @Override
     public ArrayList<Group> searchByClassId(String classId) {
         return (ArrayList<Group>) groupMapper.selectByClassId( Integer.parseInt(classId));
+    }
+
+    @Transactional
+    @Override
+    public void goBack(Integer studentId) {
+        Group group=groupMapper.selectByStudentId(studentId);
+        Byte finish = group.getGroupFinish();
+        if (finish != null) {
+            Byte newFinish = (byte) (finish - 1);
+            group.setGroupFinish(newFinish);
+            groupMapper.updateFinishByGroup(group);
+        } else {
+            // 处理null的情况
+            log.info("学生完成阶段数据异常");
+        }
+    }
+
+    @Transactional
+    @Override
+    public void createPro(Group group) {
+        //更改小组信息表中的项目名
+        groupMapper.updatePro(group);
+        log.info("到这个更改小组信息了吗");
+        //更改学生小组表
+        studentGroupMapper.updatePro(group);
+        //更改学生得分表
+        studentScoreMapper.updatePro(group);
     }
 }

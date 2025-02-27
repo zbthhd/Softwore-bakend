@@ -11,6 +11,7 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -25,22 +26,26 @@ public class StudentGroupService implements com.example.management_platform.serv
     private StudentMapper studentMapper;
 
 
+    @Transactional
     @Override
     public void deleteByClassId(Integer classId) {
         studentGroupMapper.deleteByClassId(classId);
 
     }
 
+    @Transactional
     @Override
     public void expelFromGroup(Integer studentId) {
         studentGroupMapper.updateInfoById(studentId);
     }
 
+    @Transactional
     @Override
     public List<StudentGroup> searchAllByGroupId(Integer groupId) {
         return studentGroupMapper.selectByGroupId(groupId);
     }
 
+    @Transactional
     @Override
     public void updateByList(List<StudentGroup> list) {
         //依次取出来这表中的信息
@@ -52,11 +57,13 @@ public class StudentGroupService implements com.example.management_platform.serv
 
     }
 
+    @Transactional
     @Override
     public void applyGroupByGroupId(StudentGroup studentGroup) {
         studentGroupMapper.updateApplyInfo(studentGroup);
     }
 
+    @Transactional
     @Override
     public StudentGroupDto searchByStudentId(Integer studentId) {
         StudentGroup studentGroup = studentGroupMapper.selectByStudentId(studentId);
@@ -69,6 +76,7 @@ public class StudentGroupService implements com.example.management_platform.serv
         return studentGroupDto;
     }
 
+    @Transactional
     @Override
     public PageBeanStudentGroup page(Integer page, Integer pageSize,Integer groupId) {
         //设置分页参数
@@ -83,16 +91,19 @@ public class StudentGroupService implements com.example.management_platform.serv
 
     }
 
+    @Transactional
     @Override
     public void applyGroupByStudentId(StudentGroup studentGroup) {
         studentGroupMapper.updateInfoByStudent(studentGroup);
     }
 
+    @Transactional
     @Override
     public void updateByStudentId(Integer studentId) {
         studentGroupMapper.updateAllowByStudentId(studentId);
     }
 
+    @Transactional
     @Override
     public void updateRejectStudentId(Integer studentId) {
         studentGroupMapper.updateRejectByStudentId(studentId);

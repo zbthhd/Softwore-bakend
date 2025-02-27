@@ -36,4 +36,6 @@ public interface StudentGroupMapper {
     void updateRejectByStudentId(Integer studentId);
 
     void updateScoreByGroupId(Group group);
+
+    void updatePro(Group group);
 }

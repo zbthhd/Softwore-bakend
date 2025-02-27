@@ -10,7 +10,7 @@
         update management_platform.student_group set group_id=-1,student_notice=null,student_group.student_position=-1,student_apply_reason=null,student_notice=null,gitee_url='未加入仓库' where student_id=#{stduentId}
     </update>
     <update id="updateInfoByStudentId">
-        update management_platform.student_group set group_id=-1,student_position=-1,student_apply_reason=null,student_notice=null,gitee_url='未加入仓库' where student_id=#{studentId}
+        update management_platform.student_group set group_id=-1,student_position=0,student_apply_reason=null,student_notice=null,gitee_url='未加入仓库',group_pro_name='' where student_id=#{studentId}
     </update>
     <update id="updateApplyInfo">
         update management_platform.student_group set student_apply_reason=#{studentApplyReason},group_id=#{groupId},student_position=2,group_pro_name=#{groupProName} where student_id=#{studentId}
@@ -33,6 +33,9 @@
     </update>
     <update id="updateScoreByGroupId">
         update student_score set group_score=#{groupScore} where group_id=#{groupId}
+    </update>
+    <update id="updatePro">
+        update student_group set  group_pro_name=#{groupProName} where student_id=#{studentId}
     </update>
 
     <delete id="deleteByClassId">
