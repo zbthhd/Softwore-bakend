@@ -1,18 +1,105 @@
-# Build and Release Folders
-bin-debug/
-bin-release/
-[Oo]bj/
-[Bb]in/
+# ================================
+# IDE 和编辑器生成的文件
+# ================================
+# IntelliJ IDEA
+.idea/
+*.iml
+*.ipr
+*.iws
+/out/
 
-# Other files and folders
+# Eclipse
+.classpath
+.project
 .settings/
+/bin/
+/target/
 
-# Executables
-*.swf
-*.air
-*.ipa
-*.apk
+# NetBeans
+/nbproject/private/
+/build/
+/dist/
+/nbbuild/
+/nbdist/
 
-# Project files, i.e. `.project`, `.actionScriptProperties` and `.flexProperties`
-# should NOT be excluded as they contain compiler settings and other important
-# information for Eclipse / Flash Builder.
+# VS Code
+.vscode/
+*.code-workspace
+
+# ================================
+# 构建工具生成的文件
+# ================================
+# Maven
+/target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+# Ignore the target directory
+target/
+.mvn/
+
+# ================================
+# 日志和临时文件
+# ================================
+# 日志文件
+*.log
+logs/
+*.trace
+
+# 临时文件
+*.tmp
+*.bak
+*.swp
+*~
+
+# ================================
+# 敏感信息和配置文件
+# ================================
+# 忽略本地配置文件（如 application-local.yml）
+application-local.yml
+application-dev.yml
+application-prod.yml
+*.local.*
+*.secret.*
+
+# 数据源配置文件
+/dataSources/
+/dataSources.local.xml
+
+# 环境变量文件
+.env
+.env.local
+.env.*.local
+
+# ================================
+# 测试相关文件
+# ================================
+# 测试报告
+/test-output/
+/reports/
+/test-results/
+
+# ================================
+# 其他常见忽略项
+# ================================
+# HTTP 请求文件（IDE 的 HTTP 客户端功能）
+/httpRequests/
+
+# Shelf 文件夹（IntelliJ IDEA 搁置更改）
+/shelf/
+
+# macOS 的 .DS_Store 文件
+.DS_Store
+
+# Windows 的 Thumbs.db 文件
+Thumbs.db
+
+# Linux 的 desktop.ini 文件
+desktop.ini
+
+# ================================
+# 自定义忽略规则
+# ================================
+# 如果您有其他需要忽略的文件或目录，可以在这里添加。
