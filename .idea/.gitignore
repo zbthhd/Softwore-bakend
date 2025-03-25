@@ -36,12 +36,9 @@ pom.xml.releaseBackup
 pom.xml.versionsBackup
 pom.xml.next
 release.properties
+# Ignore the target directory
+target/
 
-# Gradle
-.gradle/
-/build/
-**/build/
-.gradle-cache/
 
 # ================================
 # 日志和临时文件
